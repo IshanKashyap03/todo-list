@@ -1,3 +1,18 @@
-body{
-    background-color: red;
+#content{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+#projects-list{
+    grid-column: 1 / 2;
+    background-color: whitesmoke;
+    display: flex;
+    justify-content: center;
+}
+
+#todo-list{
+    grid-column: 2 / 3;
+    background-color: white;
+    display: flex;
+    justify-content: center;
 }
