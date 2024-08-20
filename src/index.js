@@ -1,3 +1,7 @@
-import { renderTODOs } from "./render-todos";
+import TodoManager from "./todo-manager";
+import { deleteTodo, renderTODOs, addTodo, completeTodoItem } from "./render-todos";
 
-renderTODOs();
+const todoManager = new TodoManager();
+
+renderTODOs(todoManager.getTodos(), todoManager);
+addTodo(todoManager);
