@@ -52,6 +52,20 @@
     flex-direction: column;
     gap: 20px;
 }
+
+#form-container{
+    display: none;
+}
+
+#todo-form{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.add-todo-btn{
+    margin-top: 10px;
+}
 /* 
 .todo-item{
     display: flex;

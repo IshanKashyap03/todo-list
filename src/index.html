@@ -20,6 +20,27 @@
         </div>
         <div id="todo-list">
            <h3 class="todo-list-heading">TODO LIST</h3>
+           <div id="form-container">
+                <form id="todo-form">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" required>
+
+                    <label for="description">Description:</label>
+                    <input type="text" id="description" name="description" required>
+
+                    <label for="dueDate">Due Date:</label>
+                    <input type="date" id="dueDate" name="dueDate" required>
+
+                    <label for="priority">Priority:</label>
+                    <select id="priority" name="priority" required>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+
+                    <button class="add-todo-btn" type="submit">Add Todo</button>
+                </form>
+            </div>
            <div id="todo-list-content"></div>
         </div>
     </div>

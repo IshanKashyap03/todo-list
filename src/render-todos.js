@@ -17,8 +17,8 @@ export const renderTODOs = (todoElements, todoManager) => {
             <div>Due Date: ${todo.dueDate}</div>
             <div>Priority: ${todo.priority}</div>
             <div>Completed: ${todo.completed}</div>
-            <button class="toggle-complete-status">Complete</button>
-            <button class="delete-item">Delete</button>`;
+            <button class="toggle-complete-status" style="margin-top: 10px">Complete</button>
+            <button class="delete-item" style="margin-top: 10px">Delete</button>`;
 
         todoListContainer.appendChild(todoItem);
     })
@@ -45,15 +45,35 @@ export const completeTodoItem = (event, todoManager) => {
     const index = event.target.parentElement.getAttribute('data-index');
     const todo = todoManager.getTodos()[index];
     todo.completed = todo.completed === "yes" ? "no" : "yes";
-    renderTODOs(todoManager.getTodos(), todoManager); // Re-render the list to reflect changes
+    renderTODOs(todoManager.getTodos(), todoManager);
 }
 
 export const addTodo = (todoManager) => {
     const addTodoButton = document.getElementById("add-task");
+    const formContainer = document.getElementById("form-container");
+    const todoForm = document.getElementById("todo-form");
     addTodoButton.addEventListener('click', () => {
-        todoManager.addTodos('Finish project', 'Complete the pending project', '2024-08-20', 'high', 'no');
-        renderTODOs(todoManager.getTodos(), todoManager);
+        formContainer.style.display = "block";
     });
+
+    formContainer.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+        const dueDate = document.getElementById("dueDate").value;
+        const priority = document.getElementById("priority").value;
+
+        todoManager.addTodos(title, description, dueDate, priority, "no");
+
+        renderTODOs(todoManager.getTodos(), todoManager);
+
+        todoForm.reset();
+
+        formContainer.style.display = 'none';
+    })
+
+
 }
 
 export const deleteTodo = (event, todoManager) => {
