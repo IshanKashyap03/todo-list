@@ -1,7 +1,11 @@
 import TodoManager from "./todo-manager";
-import { deleteTodo, renderTODOs, addTodo, completeTodoItem } from "./render-todos";
+import ProjectManager from "./project-manager";
+import { renderTodos, renderProjects, addProject, addTodo} from "./render-todos-and-projects";
 
 const todoManager = new TodoManager();
+const projectManager = new ProjectManager();
 
-renderTODOs(todoManager.getTodos(), todoManager);
+renderTodos(todoManager.getTodos(), todoManager);
+renderProjects(projectManager.getProjects(), projectManager);
 addTodo(todoManager);
+addProject(projectManager);

@@ -16,7 +16,16 @@
             </button>
         </div>
         <div id="projects-list">
-           <h3>PROJECTS</h3>
+           <h3 class="project-list-heading">PROJECTS</h3>
+           <div id="form-container-projects">
+                <form id="project-form">
+                    <label for="project-title">Title:</label>
+                    <input type="text" id="project-title" name="project-title" required>
+
+                    <button class="add-project-btn" type="submit">Add Project</button>
+                </form>
+            </div>
+            <div id="project-list-content"></div>
         </div>
         <div id="todo-list">
            <h3 class="todo-list-heading">TODO LIST</h3>

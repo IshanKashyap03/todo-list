@@ -28,7 +28,7 @@
     grid-column: 2 / 3;
     background-color: whitesmoke;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     grid-row: 1 / 3;
     min-height: 100vh;
 }
@@ -46,7 +46,11 @@
     text-align: center;
 }
 
-.todo-list-container{
+.project-list-heading{
+    text-align: center;
+}
+
+.todo-list-container, .project-list-container{
     display: flex;
     align-items: start;
     flex-direction: column;
@@ -57,17 +61,27 @@
     display: none;
 }
 
+#form-container-projects{
+    display: none;
+}
+
 #todo-form{
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
+#project-form{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
 .add-todo-btn{
     margin-top: 10px;
 }
-/* 
-.todo-item{
-    display: flex;
-    flex-direction: column;
-} */
+
+.add-project-btn{
+    margin-top: 10px;
+}
