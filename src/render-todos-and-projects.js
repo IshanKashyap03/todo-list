@@ -113,7 +113,7 @@ export const addTodo = (todoManager, projectManager) => {
         const completed = "no";
         const project = projectManager.getProjects();
 
-        todoManager.addTodos(title, description, dueDate, priority, completed, project);
+        todoManager.addTodos(title, description, dueDate, priority, completed, project, projectManager);
 
         renderTodos(todoManager.getTodos(), todoManager);
 
@@ -125,15 +125,11 @@ export const addTodo = (todoManager, projectManager) => {
 
 export const addProject = (projectManager, todoManager) => {
     const projectFormContainer = document.getElementById("form-container-projects");
-    const projectForm = document.getElementById("project-form");
-
-    console.log("addProject function called"); // Debugging log
-
+    const projectForm = document.getElementById("project-form")
 
     projectForm.addEventListener("submit", (event) => {
         event.preventDefault();
 
-        console.log("Project form submitted"); // Debugging log
         const projectTitle = document.getElementById("project-title").value;
         projectManager.addProjects(projectTitle, todoManager);
         renderProjects(projectManager.getProjects(), projectManager, todoManager);
@@ -143,9 +139,9 @@ export const addProject = (projectManager, todoManager) => {
     })
 }
 
-export const deleteTodo = (event, todoManager) => {
+export const deleteTodo = (event, todoManager, projectManager) => {
     const index = event.target.getAttribute('data-index');
-    todoManager.removeTodo(index);
+    todoManager.removeTodo(index, projectManager);
     renderTodos(todoManager.getTodos(), todoManager); 
 }
 

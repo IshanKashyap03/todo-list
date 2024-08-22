@@ -1,9 +1,10 @@
 import Project from "./Projects";
+import { saveDataToLocalStorage } from "./localstorageFuctions";
 
 export default class ProjectManager{
     
-    constructor(){
-        this.projects = [new Project("default")];
+    constructor(projects = []){
+        this.projects = projects.map(projectData => new Project(projectData.title));
     }
 
     addProjects(title, todoManager){
@@ -17,6 +18,8 @@ export default class ProjectManager{
                 todo.project.push(project);
             }
         });
+
+        saveDataToLocalStorage(todoManager, this); 
     }
 
     removeProjects(index, todoManager){
@@ -26,6 +29,8 @@ export default class ProjectManager{
         todoManager.getTodos().forEach(todo => {
             todo.project = todo.project.filter(project => project != projectToRemove);
         });
+
+        saveDataToLocalStorage(todoManager, this); 
     }
 
     getProjects() {
