@@ -5,8 +5,9 @@ export default class TodoManager {
         this.todos = [];
     }
 
-    addTodos(title, description, dueDate, priority, completed){
-        const todo = new Todo(title, description, dueDate, priority, completed);
+    addTodos(title, description, dueDate, priority, completed, project){
+        const todo = new Todo(title, description, dueDate, priority, completed, project);
+        console.log("todo: ", todo);
         this.todos.push(todo);
     }
 

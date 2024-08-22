@@ -6,19 +6,28 @@ export const renderTodos = (todoElements, todoManager) => {
 
     const todoListContainer = document.createElement("div");
     todoListContainer.classList.add("todo-list-container");
+    
 
     todoElements.forEach((todo, index)=>{
+        const projectOptions = todo.project.map(proj => `<option>${proj.title}</option>`).join('');
         const todoItem = document.createElement("div");
         todoItem.classList.add("todo-item");
-        todoItem.setAttribute('data-index', index);
         todoItem.innerHTML = `
             <div>Title: ${todo.title}</div> 
             <div>Description: ${todo.description}</div>
             <div>Due Date: ${todo.dueDate}</div>
             <div>Priority: ${todo.priority}</div>
             <div>Completed: ${todo.completed}</div>
-            <button class="toggle-complete-status" style="margin-top: 10px">Complete</button>
-            <button class="delete-item" style="margin-top: 10px">Delete</button>`;
+            <div class="selectors">
+                <div class="project-select">
+                    <label for="projects">Project:</label>
+                    <select>
+                        ${projectOptions}
+                    </select>
+                </div>
+                <button class="toggle-complete-status" style="margin-top: 10px" data-index="${index}">Complete</button>
+                <button class="delete-item" style="margin-top: 10px" data-index="${index}">Delete</button>
+            </div>`;
 
         todoListContainer.appendChild(todoItem);
     })
@@ -28,7 +37,7 @@ export const renderTodos = (todoElements, todoManager) => {
     attachEventListenersTodos(todoManager);
 }
 
-export const renderProjects = (projectElements, projectManager) => {
+export const renderProjects = (projectElements, projectManager, todoManager) => {
     const projects = document.getElementById("project-list-content");
     projects.innerHTML = ''; 
 
@@ -38,17 +47,16 @@ export const renderProjects = (projectElements, projectManager) => {
     projectElements.forEach((project, index)=>{
         const projectItem = document.createElement("div");
         projectItem.classList.add("project-item");
-        projectItem.setAttribute('data-index', index);
         projectItem.innerHTML = `
             <div>Title: ${project.title}</div> 
-            <button class="delete-project" style="margin-top: 10px">Delete</button>`;
+            <button class="delete-project" style="margin-top: 10px" data-index=${index}>Delete</button>`;
 
         projectsListContainer.appendChild(projectItem);
     })
 
     projects.appendChild(projectsListContainer);
 
-    attachEventListenersProjects(projectManager);
+    attachEventListenersProjects(projectManager, todoManager);
 }
 
 function attachEventListenersTodos(todoManager){
@@ -70,7 +78,7 @@ function attachEventListenersTodos(todoManager){
     })
 }
 
-function attachEventListenersProjects(projectManager){
+function attachEventListenersProjects(projectManager, todoManager){
     const addProjectButton = document.getElementById("add-project");
     const deleteButtons = document.querySelectorAll(".delete-project");
 
@@ -80,18 +88,18 @@ function attachEventListenersProjects(projectManager){
     });
 
     deleteButtons.forEach(button => {
-        button.addEventListener("click", (event) => deleteProject(event, projectManager));
+        button.addEventListener("click", (event) => deleteProject(event, projectManager, todoManager));
     })
 }
 
 export const completeTodoItem = (event, todoManager) => {
-    const index = event.target.parentElement.getAttribute('data-index');
+    const index = event.target.getAttribute('data-index');
     const todo = todoManager.getTodos()[index];
     todo.completed = todo.completed === "yes" ? "no" : "yes";
     renderTodos(todoManager.getTodos(), todoManager);
 }
 
-export const addTodo = (todoManager) => {
+export const addTodo = (todoManager, projectManager) => {
     const formContainer = document.getElementById("form-container");
     const todoForm = document.getElementById("todo-form");
 
@@ -102,8 +110,10 @@ export const addTodo = (todoManager) => {
         const description = document.getElementById("description").value;
         const dueDate = document.getElementById("dueDate").value;
         const priority = document.getElementById("priority").value;
+        const completed = "no";
+        const project = projectManager.getProjects();
 
-        todoManager.addTodos(title, description, dueDate, priority, "no");
+        todoManager.addTodos(title, description, dueDate, priority, completed, project);
 
         renderTodos(todoManager.getTodos(), todoManager);
 
@@ -113,24 +123,35 @@ export const addTodo = (todoManager) => {
     })
 }
 
-export const addProject = (projectManager) => {
+export const addProject = (projectManager, todoManager) => {
     const projectFormContainer = document.getElementById("form-container-projects");
     const projectForm = document.getElementById("project-form");
 
+    console.log("addProject function called"); // Debugging log
+
+
     projectForm.addEventListener("submit", (event) => {
         event.preventDefault();
+
+        console.log("Project form submitted"); // Debugging log
         const projectTitle = document.getElementById("project-title").value;
-        projectManager.addProjects(projectTitle);
-        renderProjects(projectManager.getProjects(), projectManager);
+        projectManager.addProjects(projectTitle, todoManager);
+        renderProjects(projectManager.getProjects(), projectManager, todoManager);
+        renderTodos(todoManager.getTodos(), todoManager); 
         projectForm.reset();
         projectFormContainer.style.display = 'none';
     })
 }
 
-
-
 export const deleteTodo = (event, todoManager) => {
-    const index = event.target.parentElement.getAttribute('data-index');
+    const index = event.target.getAttribute('data-index');
     todoManager.removeTodo(index);
+    renderTodos(todoManager.getTodos(), todoManager); 
+}
+
+export const deleteProject = (event, projectManager, todoManager) => {
+    const index = event.target.getAttribute('data-index');
+    projectManager.removeProjects(index, todoManager);
+    renderProjects(projectManager.getProjects(), projectManager, todoManager); 
     renderTodos(todoManager.getTodos(), todoManager); 
 }

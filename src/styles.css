@@ -85,3 +85,13 @@
 .add-project-btn{
     margin-top: 10px;
 }
+
+.selectors{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.project-select{
+    display: block;
+}
